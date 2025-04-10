@@ -4,7 +4,7 @@
 
 This project visualizes street-level driving risk predictions in Breda using real-world behavioral, weather, and accident data. Built with a machine learning pipeline and deployed via Streamlit, the app helps identify potentially dangerous streets — enabling smarter, safer urban mobility.
 
-🔗 **[Live App Demo](http://194.171.191.226:3529)**
+🔗 **[Live App Demo](https://dominikkasecki-safe-driving-risk-map-streamlit-appapp-uvil9d.streamlit.app/)**
 
 ---
 

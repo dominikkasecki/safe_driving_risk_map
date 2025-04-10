@@ -1,6 +1,4 @@
-Sure, here is a concise and informative README for your project:
 
----
 
 # Safe Driving Risk Prediction
 

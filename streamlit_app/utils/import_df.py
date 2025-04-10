@@ -11,7 +11,7 @@ def import_df(name="", columns_to_convert=[], custom_path=False):
     Returns:
         DataFrame: The imported DataFrame with specified columns converted to datetime.
     """
-    path = f"./data/cleaned_data/{name}.csv"
+    path = f"./streamlit_app/data/cleaned_data/{name}.csv"
     if custom_path:
         path = custom_path
     df = pd.read_csv(path)

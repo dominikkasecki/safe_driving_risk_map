@@ -58,11 +58,11 @@ def check_if_saved_models_exist():
     Returns:
         bool: True if models exist, False otherwise.
     """
-    if not any(Path("./weights").iterdir()):
+    if not any(Path("./streamlit_app/weights").iterdir()):
         st.write("Models do not exist")
         st.error("Train models by going to modelling page")
         return False
-    elif any(Path("./weights").iterdir()) and "data" not in st.session_state:
+    elif any(Path("./streamlit_app/weights").iterdir()) and "data" not in st.session_state:
         st.success("Models exist")
         return True
     else:
@@ -72,6 +72,8 @@ def main():
     """Main function to run the Streamlit app."""
     st.header("Let's check if data exists")
     data_dir_exists = Path('data').exists()
+    
+
     if not data_dir_exists:
         Path('./streamlit_app/data/original_data').mkdir(parents=True, exist_ok=True)
         Path('./streamlit_app/data/cleaned_data').mkdir(parents=True, exist_ok=True)

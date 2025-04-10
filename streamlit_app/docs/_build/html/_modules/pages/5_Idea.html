@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pages.5_Idea &mdash; Team6 Project - Street Risk Predictor  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Team6 Project - Street Risk Predictor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Team6 Project - Street Risk Predictor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pages.5_Idea</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pages.5_Idea</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="c1"># For myself:</span>
+<span class="c1"># Sufficient: understanding of business needs and industry context by developing project proposal that</span>
+<span class="c1"># effectively identifies and addressses client requirements. </span>
+<span class="c1"># Clear problem statement, define project objectives, and propose feasible solutions that demonstrate</span>
+<span class="c1"># understanding of business environment.</span>
+
+<span class="c1"># Good: understanding business context in final presentation, communicate insights. </span>
+<span class="c1"># engaging, well-structured, emphasizes practical implications within broader business context.</span>
+
+<span class="c1"># Excellent: innovative solution that not only aligns with client&#39;s specific requirements,</span>
+<span class="c1"># but also possesses considerable business value</span>
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../pages.html#pages.5_Idea.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    
+    
+    <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Safer Roads in Breda&#39;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">divider</span><span class="p">()</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s1">&#39;Block 1D 2023-2024 Project&#39;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s1">&#39;By: Lars Kerkhofs, Natalia Mikes, Artjom Musaelans, Dominik Ptaszek and Luka Wieme&#39;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">divider</span><span class="p">()</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;The Client and their Issue&#39;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;&#39; </span>
+<span class="s1">    Imagine you are driving down an urban road in Breda, just minding your own business. However,</span>
+<span class="s1">             due to unforeseen circumstances, for example, overgrown bushes, sidestreets that are hidden</span>
+<span class="s1">             from view or hard rain, you are unable to see the oncoming intersection.</span>
+<span class="s1">             This could lead to a dangerous situation or potentially a traffic incident. Too many incidents</span>
+<span class="s1">             happen on rural roads especially. Our client, ANWB, came to us with this rising issue and</span>
+<span class="s1">             asked us what could be done about it.  </span>
+<span class="s1">             Looking at the Netherlands overall, it is one of </span>
+<span class="s1">             the best countries at enforcing safer traffic for everyone. Many programmes have been </span>
+<span class="s1">             implemented over the years to improve traffic safety, all under the name Sustainable Safety</span>
+<span class="s1">             (SWOV, 2018). Three principles were followed when implementing measures to improve road</span>
+<span class="s1">             safety: eliminating, minimizing and mitigating. We decided to focus on mitigating effects</span>
+<span class="s1">             with the data that was available to us. The mitigating principle holds in that &#39;where people</span>
+<span class="s1">             are exposed to risks, their consequences should as far as possible be mitigated by taking </span>
+<span class="s1">             appropriate mitigating measures&#39; (SWOV, 2018, p. 8). Thus, our project not only aligns</span>
+<span class="s1">             well with the client&#39;s needs, but also on a national level.  </span>
+<span class="s1">             The purpose of the project would be to mitigate risk on urban roads in Breda. It was </span>
+<span class="s1">             noticed that tons of applications exist that show traffic information on a broad scale,</span>
+<span class="s1">             not on a more local scale, like per street. Even if a street is not busy, it could still</span>
+<span class="s1">             be potentially dangerous to drive through due to a myriad of factors. Our application takes</span>
+<span class="s1">             into account these factors and labels streets in Breda as either low-risk or high-risk. </span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s1">&#39;&#39;&#39; </span>
+<span class="s1">    :triangular_flag_on_post: :collision: :red_car: </span>
+<span class="s1">                &#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Project Idea&#39;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    Our project combines available datasets, including the ANWB safe driving dataset, KNMI weather datasets</span>
+<span class="s1">             and BRON accident dataset to determine whether a street is high-risk or low-risk to drive</span>
+<span class="s1">             through. With the help of this application, users (mostly drivers, but also other traffic</span>
+<span class="s1">             users) will be more prepared. Users could check ahead of time what kind of streets they </span>
+<span class="s1">             will be driving through and depending on that could decide to reroute or be more aware</span>
+<span class="s1">             when driving through streets labelled high-risk. Users will be more alert and drive more safely</span>
+<span class="s1">             when using this application, which will lead to less incidents.  </span>
+<span class="s1">             This will also be beneficial</span>
+<span class="s1">             for ANWB&#39;s stakeholders to lower the costs of insurance. It aligns well with one of ANWB&#39;s missions</span>
+<span class="s1">             as stated on their website, which is to prevent rather than insure. ANWB can also use this </span>
+<span class="s1">             application to identify high-risk streets and confront the municipality of Breda to implement</span>
+<span class="s1">             more safety measures in those areas. </span>
+<span class="s1">             &#39;&#39;&#39;</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dominik, Natalia, Lars, Luka, Artjom.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

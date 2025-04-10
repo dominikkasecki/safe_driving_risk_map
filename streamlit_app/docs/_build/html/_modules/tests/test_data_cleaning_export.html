@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.test_data_cleaning_export &mdash; Team6 Project - Street Risk Predictor  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Team6 Project - Street Risk Predictor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Team6 Project - Street Risk Predictor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">tests.test_data_cleaning_export</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for tests.test_data_cleaning_export</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">MagicMock</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">psycopg2</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="s1">&#39;components&#39;</span><span class="p">,</span> <span class="s1">&#39;data_cleaning&#39;</span><span class="p">)))</span>
+
+
+
+<span class="kn">from</span> <span class="nn">export_data</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">connect_to_database</span><span class="p">,</span>
+    <span class="n">make_query</span><span class="p">,</span>
+    <span class="n">get_column_names</span><span class="p">,</span>
+    <span class="n">drop_views</span><span class="p">,</span>
+    <span class="n">create_views</span><span class="p">,</span>
+    <span class="n">load_sql_to_df</span><span class="p">,</span>
+    <span class="n">export_all_data</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">db_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;194.171.191.226&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="s2">&quot;6379&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;database&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;group6&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;blockd_2024group6_79&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="mock_connection">
+<a class="viewcode-back" href="../../tests.html#tests.test_data_cleaning_export.mock_connection">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">mock_connection</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;psycopg2.connect&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_connect</span><span class="p">:</span>
+        <span class="n">mock_conn</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
+        <span class="n">mock_cursor</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
+        <span class="n">mock_conn</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">mock_cursor</span>
+        <span class="n">mock_connect</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">mock_conn</span>
+        <span class="k">yield</span> <span class="n">mock_conn</span><span class="p">,</span> <span class="n">mock_cursor</span></div>
+
+
+<div class="viewcode-block" id="test_connect_to_database_success">
+<a class="viewcode-back" href="../../tests.html#tests.test_data_cleaning_export.test_connect_to_database_success">[docs]</a>
+<span class="k">def</span> <span class="nf">test_connect_to_database_success</span><span class="p">(</span><span class="n">mock_connection</span><span class="p">):</span>
+    <span class="n">mock_conn</span><span class="p">,</span> <span class="n">mock_cursor</span> <span class="o">=</span> <span class="n">mock_connection</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">connect_to_database</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">conn</span> <span class="o">==</span> <span class="n">mock_conn</span>
+    <span class="n">mock_conn</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="test_connect_to_database_failure">
+<a class="viewcode-back" href="../../tests.html#tests.test_data_cleaning_export.test_connect_to_database_failure">[docs]</a>
+<span class="k">def</span> <span class="nf">test_connect_to_database_failure</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;psycopg2.connect&#39;</span><span class="p">,</span> <span class="n">side_effect</span><span class="o">=</span><span class="n">psycopg2</span><span class="o">.</span><span class="n">OperationalError</span><span class="p">):</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">connect_to_database</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">conn</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="test_make_query_success">
+<a class="viewcode-back" href="../../tests.html#tests.test_data_cleaning_export.test_make_query_success">[docs]</a>
+<span class="k">def</span> <span class="nf">test_make_query_success</span><span class="p">(</span><span class="n">mock_connection</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">mock_cursor</span> <span class="o">=</span> <span class="n">mock_connection</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM test_table&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">make_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="n">mock_cursor</span><span class="o">.</span><span class="n">execute</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;Query succeeded&quot;</span></div>
+
+
+<div class="viewcode-block" id="test_make_query_with_results">
+<a class="viewcode-back" href="../../tests.html#tests.test_data_cleaning_export.test_make_query_with_results">[docs]</a>
+<span class="k">def</span> <span class="nf">test_make_query_with_results</span><span class="p">(</span><span class="n">mock_connection</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">mock_cursor</span> <span class="o">=</span> <span class="n">mock_connection</span>
+
+    <span class="n">mock_cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;row1&quot;</span><span class="p">,),</span> <span class="p">(</span><span class="s2">&quot;row2&quot;</span><span class="p">,)]</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM test_table&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">make_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">show_results</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">mock_cursor</span><span class="o">.</span><span class="n">execute</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="p">[(</span><span class="s2">&quot;row1&quot;</span><span class="p">,),</span> <span class="p">(</span><span class="s2">&quot;row2&quot;</span><span class="p">,)]</span></div>
+
+
+<div class="viewcode-block" id="test_get_column_names">
+<a class="viewcode-back" href="../../tests.html#tests.test_data_cleaning_export.test_get_column_names">[docs]</a>
+<span class="k">def</span> <span class="nf">test_get_column_names</span><span class="p">(</span><span class="n">mock_connection</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">mock_cursor</span> <span class="o">=</span> <span class="n">mock_connection</span>
+    <span class="n">mock_cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;column1&quot;</span><span class="p">,),</span> <span class="p">(</span><span class="s2">&quot;column2&quot;</span><span class="p">,)]</span>
+    
+    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;export_data.make_query&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;column1&quot;</span><span class="p">,),</span> <span class="p">(</span><span class="s2">&quot;column2&quot;</span><span class="p">,)]):</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="n">get_column_names</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">column_names</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;column1&quot;</span><span class="p">,</span> <span class="s2">&quot;column2&quot;</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="test_drop_views">
+<a class="viewcode-back" href="../../tests.html#tests.test_data_cleaning_export.test_drop_views">[docs]</a>
+<span class="k">def</span> <span class="nf">test_drop_views</span><span class="p">(</span><span class="n">mock_connection</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;export_data.make_query&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_make_query</span><span class="p">:</span>
+        <span class="n">drop_views</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">mock_make_query</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">5</span></div>
+
+
+<div class="viewcode-block" id="test_load_sql_to_df">
+<a class="viewcode-back" href="../../tests.html#tests.test_data_cleaning_export.test_load_sql_to_df">[docs]</a>
+<span class="k">def</span> <span class="nf">test_load_sql_to_df</span><span class="p">(</span><span class="n">mock_connection</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">mock_cursor</span> <span class="o">=</span> <span class="n">mock_connection</span>
+
+    <span class="n">mock_cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;row1&quot;</span><span class="p">,</span> <span class="s2">&quot;row2&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;row3&quot;</span><span class="p">,</span> <span class="s2">&quot;row4&quot;</span><span class="p">)]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">]</span>
+    
+    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;export_data.get_column_names&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="n">columns</span><span class="p">),</span> \
+         <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;export_data.make_query&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;row1&quot;</span><span class="p">,</span> <span class="s2">&quot;row2&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;row3&quot;</span><span class="p">,</span> <span class="s2">&quot;row4&quot;</span><span class="p">)]),</span> \
+         <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;pandas.DataFrame.to_csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_to_csv</span><span class="p">:</span>
+        
+        <span class="n">df</span> <span class="o">=</span> <span class="n">load_sql_to_df</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="n">columns</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span>
+        <span class="n">mock_to_csv</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dominik, Natalia, Lars, Luka, Artjom.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

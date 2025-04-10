@@ -1,0 +1,15 @@
+streamlit
+pandas
+numpy
+matplotlib
+seaborn
+joblib
+folium
+streamlit-folium
+keras
+tensorflow[and-cuda]
+scikit-learn
+scipy
+psycopg2-binary
+xgboost
+keras-tuner

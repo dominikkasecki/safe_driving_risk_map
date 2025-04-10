@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App module &mdash; Team6 Project - Street Risk Predictor  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Team6 Project - Street Risk Predictor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">App module</a><ul>
+<li><a class="reference internal" href="#App.check_if_saved_models_exist"><code class="docutils literal notranslate"><span class="pre">check_if_saved_models_exist()</span></code></a></li>
+<li><a class="reference internal" href="#App.create_map"><code class="docutils literal notranslate"><span class="pre">create_map()</span></code></a></li>
+<li><a class="reference internal" href="#App.get_model_features_path"><code class="docutils literal notranslate"><span class="pre">get_model_features_path()</span></code></a></li>
+<li><a class="reference internal" href="#App.get_model_path"><code class="docutils literal notranslate"><span class="pre">get_model_path()</span></code></a></li>
+<li><a class="reference internal" href="#App.load_model"><code class="docutils literal notranslate"><span class="pre">load_model()</span></code></a></li>
+<li><a class="reference internal" href="#App.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#App.plot_map"><code class="docutils literal notranslate"><span class="pre">plot_map()</span></code></a></li>
+<li><a class="reference internal" href="#App.preprocess_data"><code class="docutils literal notranslate"><span class="pre">preprocess_data()</span></code></a></li>
+<li><a class="reference internal" href="#App.read_model_features"><code class="docutils literal notranslate"><span class="pre">read_model_features()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Team6 Project - Street Risk Predictor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">App module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/App.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-App">
+<span id="app-module"></span><h1>App module<a class="headerlink" href="#module-App" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="App.check_if_saved_models_exist">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">check_if_saved_models_exist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#check_if_saved_models_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.check_if_saved_models_exist" title="Link to this definition"></a></dt>
+<dd><p>Check if saved models exist and update the Streamlit session state.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>bool: True if models exist, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="App.create_map">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">create_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averaged_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#create_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.create_map" title="Link to this definition"></a></dt>
+<dd><p>Create a map with markers based on the input data.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data (DataFrame): Input data.
+averaged_data (DataFrame): Preprocessed data with risk levels.</p>
+</dd>
+<dt>Returns:</dt><dd><p>folium.Map: Folium map with markers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="App.get_model_features_path">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">get_model_features_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#get_model_features_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.get_model_features_path" title="Link to this definition"></a></dt>
+<dd><p>Get the file path for the features of a given model.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model_name (str): Name of the model.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Path to the model features file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="App.get_model_path">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">get_model_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#get_model_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.get_model_path" title="Link to this definition"></a></dt>
+<dd><p>Get the file path for a given model name.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model_name (str): Name of the model.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Path to the model file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="App.load_model">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.load_model" title="Link to this definition"></a></dt>
+<dd><p>Load a model from a given file path.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model_path (str): Path to the model file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>model: Loaded model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="App.main">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.main" title="Link to this definition"></a></dt>
+<dd><p>Main function to run the Streamlit app.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="App.plot_map">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">plot_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#plot_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.plot_map" title="Link to this definition"></a></dt>
+<dd><p>Plot the map with risk levels for streets using Folium and Streamlit.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="App.preprocess_data">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">preprocess_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_n_network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#preprocess_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.preprocess_data" title="Link to this definition"></a></dt>
+<dd><p>Preprocess the input data for model prediction.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data (DataFrame): Input data.
+model_features (list): List of model features.
+is_n_network (bool): Flag indicating if the model is a neural network.</p>
+</dd>
+<dt>Returns:</dt><dd><p>DataFrame: Preprocessed data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="App.read_model_features">
+<span class="sig-prename descclassname"><span class="pre">App.</span></span><span class="sig-name descname"><span class="pre">read_model_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/App.html#read_model_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.read_model_features" title="Link to this definition"></a></dt>
+<dd><p>Read model features from a file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model_path (str): Path to the model features file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: List of model features.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dominik, Natalia, Lars, Luka, Artjom.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

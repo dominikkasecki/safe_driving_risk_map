@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App &mdash; Team6 Project - Street Risk Predictor  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Team6 Project - Street Risk Predictor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Team6 Project - Street Risk Predictor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">App</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for App</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+
+<span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">import</span> <span class="nn">folium</span>
+<span class="kn">from</span> <span class="nn">streamlit_folium</span> <span class="kn">import</span> <span class="n">st_folium</span>
+<span class="kn">from</span> <span class="nn">folium.plugins</span> <span class="kn">import</span> <span class="n">MarkerCluster</span>
+
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">utils.redirect</span> <span class="kn">import</span> <span class="n">redirect_to_page</span>
+<span class="kn">from</span> <span class="nn">streamlit_folium</span> <span class="kn">import</span> <span class="n">folium_static</span>
+<span class="kn">from</span> <span class="nn">branca.element</span> <span class="kn">import</span> <span class="n">Template</span><span class="p">,</span> <span class="n">MacroElement</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">load_model</span> <span class="k">as</span> <span class="n">load_keras_model</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+<span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">&quot;wide&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="check_if_saved_models_exist">
+<a class="viewcode-back" href="../App.html#App.check_if_saved_models_exist">[docs]</a>
+<span class="k">def</span> <span class="nf">check_if_saved_models_exist</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if saved models exist and update the Streamlit session state.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if models exist, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()):</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Models do not exist&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Train models by going to modelling page&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">iterdir</span><span class="p">())</span> <span class="ow">and</span> <span class="s2">&quot;data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="s2">&quot;Models exist&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="get_model_path">
+<a class="viewcode-back" href="../App.html#App.get_model_path">[docs]</a>
+<span class="nd">@st</span><span class="o">.</span><span class="n">cache_data</span>
+<span class="k">def</span> <span class="nf">get_model_path</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the file path for a given model name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_name (str): Name of the model.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Path to the model file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;neural_network&#39;</span> <span class="ow">in</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;./weights/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.h5&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;./weights/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.pkl&quot;</span></div>
+
+
+<div class="viewcode-block" id="load_model">
+<a class="viewcode-back" href="../App.html#App.load_model">[docs]</a>
+<span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a model from a given file path.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_path (str): Path to the model file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        model: Loaded model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">model_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.h5&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">load_keras_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_model_features_path">
+<a class="viewcode-back" href="../App.html#App.get_model_features_path">[docs]</a>
+<span class="nd">@st</span><span class="o">.</span><span class="n">cache_data</span>
+<span class="k">def</span> <span class="nf">get_model_features_path</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the file path for the features of a given model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_name (str): Name of the model.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Path to the model features file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;./model_features/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">_features.txt&quot;</span></div>
+
+
+<div class="viewcode-block" id="read_model_features">
+<a class="viewcode-back" href="../App.html#App.read_model_features">[docs]</a>
+<span class="k">def</span> <span class="nf">read_model_features</span><span class="p">(</span><span class="n">model_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read model features from a file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_path (str): Path to the model features file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of model features.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">cols_list</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cols_list</span></div>
+
+
+<div class="viewcode-block" id="preprocess_data">
+<a class="viewcode-back" href="../App.html#App.preprocess_data">[docs]</a>
+<span class="k">def</span> <span class="nf">preprocess_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">model_features</span><span class="p">,</span> <span class="n">is_n_network</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Preprocess the input data for model prediction.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (DataFrame): Input data.</span>
+<span class="sd">        model_features (list): List of model features.</span>
+<span class="sd">        is_n_network (bool): Flag indicating if the model is a neural network.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        DataFrame: Preprocessed data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert event_start and event_end to datetime</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;event_start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;event_start&quot;</span><span class="p">])</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;event_end&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;event_end&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Select relevant columns and drop missing values</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">model_features</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;road_name&quot;</span><span class="p">,</span> <span class="s2">&quot;event_start&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">is_n_network</span><span class="p">:</span>
+        <span class="c1"># Convert numerical values to float32</span>
+        <span class="n">num_cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">num_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">num_cols</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="n">cat_cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+        <span class="n">label_encoder</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">LabelEncoder</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cat_cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="o">!=</span> <span class="s1">&#39;road_name&#39;</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+
+    <span class="c1"># Remove duplicate columns</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="o">~</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
+
+    <span class="c1"># Sort data by event_start in descending order</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;event_start&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Group by road_name and get the top 10 records for each group</span>
+    <span class="n">top_10_per_street</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;road_name&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Identify numeric columns</span>
+    <span class="n">numeric_columns</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">model_features</span><span class="p">]</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s2">&quot;number&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">numeric_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">col_name</span><span class="p">:</span> <span class="n">col_name</span> <span class="o">!=</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">numeric_columns</span><span class="p">))</span>
+
+    <span class="c1"># Compute mean for numeric columns</span>
+    <span class="n">mean_values</span> <span class="o">=</span> <span class="n">top_10_per_street</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;road_name&quot;</span><span class="p">)[</span><span class="n">numeric_columns</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="c1"># Compute mode for &#39;category&#39; column</span>
+    <span class="n">mode_values</span> <span class="o">=</span> <span class="n">top_10_per_street</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;road_name&quot;</span><span class="p">)[</span><span class="s2">&quot;category&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Combine mean and mode values</span>
+    <span class="n">averaged_data</span> <span class="o">=</span> <span class="n">mean_values</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mode_values</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;road_name&quot;</span><span class="p">,</span> <span class="n">rsuffix</span><span class="o">=</span><span class="s1">&#39;_mode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="c1"># Use only 600 streets for optimization purposes</span>
+    <span class="k">return</span> <span class="n">averaged_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">600</span><span class="p">,</span> <span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="create_map">
+<a class="viewcode-back" href="../App.html#App.create_map">[docs]</a>
+<span class="k">def</span> <span class="nf">create_map</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">averaged_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a map with markers based on the input data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (DataFrame): Input data.</span>
+<span class="sd">        averaged_data (DataFrame): Preprocessed data with risk levels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        folium.Map: Folium map with markers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">st</span><span class="o">.</span><span class="n">spinner</span><span class="p">(</span><span class="s1">&#39;Creating map....&#39;</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+            <span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()],</span>
+            <span class="n">zoom_start</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="p">)</span>
+    
+        <span class="c1"># Add a marker cluster</span>
+        <span class="n">marker_cluster</span> <span class="o">=</span> <span class="n">MarkerCluster</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    
+        <span class="c1"># Add points to the map</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">averaged_data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">street_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;road_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;road_name&quot;</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">street_data</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">latitude</span> <span class="o">=</span> <span class="n">street_data</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">longitude</span> <span class="o">=</span> <span class="n">street_data</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;risk_level&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;red&quot;</span>
+                <span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">(</span>
+                    <span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">],</span>
+                    <span class="n">popup</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;road_name&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">capitalize</span><span class="p">(),</span>
+                    <span class="n">icon</span><span class="o">=</span><span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">),</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">marker_cluster</span><span class="p">)</span>
+    
+        <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="plot_map">
+<a class="viewcode-back" href="../App.html#App.plot_map">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_map</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the map with risk levels for streets using Folium and Streamlit.&quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">averaged_data</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">map_data</span>
+
+    <span class="n">legend_html</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        &lt;div style=&#39;padding: 10px; margin-bottom: 10px; background-color: white; </span>
+<span class="s2">                    border:2px solid grey; border-radius:5px; font-size:14px; width: 250px;&#39;&gt;</span>
+<span class="s2">            &lt;b style=&#39;color: black;&#39;&gt;Risk Level&lt;/b&gt;&lt;br&gt;</span>
+<span class="s2">            &lt;div style=&#39;display: flex; align-items: center;&#39;&gt;&lt;div style=&#39;height: 16px; width: 16px; background-color: #38A9DB; border-radius: 50%; margin-right: 8px;&#39;&gt;&lt;/div&gt;&lt;span style=&#39;color: black;&#39;&gt;Low Risk&lt;/span&gt;&lt;/div&gt;</span>
+<span class="s2">            &lt;div style=&#39;display: flex; align-items: center;&#39;&gt;&lt;div style=&#39;height: 16px; width: 16px; background-color: #D43E2A; border-radius: 50%; margin-right: 8px;&#39;&gt;&lt;/div&gt;&lt;span style=&#39;color: black;&#39;&gt;High Risk&lt;/span&gt;&lt;/div&gt;</span>
+<span class="s2">        &lt;/div&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="n">legend_html</span><span class="p">,</span> <span class="n">unsafe_allow_html</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">map_object</span> <span class="o">=</span> <span class="n">create_map</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">averaged_data</span><span class="p">)</span>
+
+    <span class="c1"># Display the map using st_folium with a full_width set to True</span>
+    <span class="n">folium_static</span><span class="p">(</span><span class="n">map_object</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1200</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../App.html#App.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main function to run the Streamlit app.&quot;&quot;&quot;</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Binary Classification Visualiser&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Map with streets and their respective risk levels&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_if_saved_models_exist</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Please load data first by clicking the button on the left side (Load Data)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Load Data&quot;</span><span class="p">):</span>
+            <span class="n">redirect_to_page</span><span class="p">(</span><span class="s2">&quot;pages/1_Load_data.py&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">check_if_saved_models_exist</span><span class="p">()</span> <span class="ow">and</span> <span class="s2">&quot;data&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Choose model to show map for&quot;</span><span class="p">)</span>
+        <span class="n">model_names</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;hist&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">delete_key_in_dict</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">received_dict</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Delete a key from a dictionary if it exists.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                key (str): Key to delete.</span>
+<span class="sd">                received_dict (dict): Dictionary from which to delete the key.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">received_dict</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">received_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="n">model_name</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;Model&quot;</span><span class="p">,</span> <span class="n">model_names</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Select model&quot;</span><span class="p">,</span> <span class="n">on_change</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">delete_key_in_dict</span><span class="p">(</span><span class="s1">&#39;map_data&#39;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">))</span>
+        <span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span>
+
+        <span class="n">model_path</span> <span class="o">=</span> <span class="n">get_model_path</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="n">is_neural_network</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.h5&#39;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Show map&quot;</span><span class="p">):</span>
+            <span class="n">model_features_path</span> <span class="o">=</span> <span class="n">get_model_features_path</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">model_name</span><span class="p">)</span>
+            <span class="n">model_features</span> <span class="o">=</span> <span class="n">read_model_features</span><span class="p">(</span><span class="n">model_features_path</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">averaged_data</span> <span class="o">=</span> <span class="n">preprocess_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">model_features</span><span class="p">,</span> <span class="n">is_neural_network</span><span class="p">)</span>
+            <span class="n">X_data</span> <span class="o">=</span> <span class="n">averaged_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">model_features</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">loaded_model</span>
+
+            <span class="k">with</span> <span class="n">st</span><span class="o">.</span><span class="n">spinner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> to draw points ....&quot;</span><span class="p">):</span>
+                <span class="n">averaged_data</span><span class="p">[</span><span class="s2">&quot;risk_level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_data</span><span class="p">)</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">map_data</span> <span class="o">=</span> <span class="n">averaged_data</span>
+
+    <span class="k">if</span> <span class="s2">&quot;map_data&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="s2">&quot;loaded_model&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="s2">&quot;data&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">st</span><span class="o">.</span><span class="n">container</span><span class="p">():</span>
+            <span class="n">plot_map</span><span class="p">()</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dominik, Natalia, Lars, Luka, Artjom.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

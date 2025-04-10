@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pages package &mdash; Team6 Project - Street Risk Predictor  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Team6 Project - Street Risk Predictor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pages package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pages.1_Load_data">pages.1_Load_data module</a><ul>
+<li><a class="reference internal" href="#pages.1_Load_data.check_files"><code class="docutils literal notranslate"><span class="pre">check_files()</span></code></a></li>
+<li><a class="reference internal" href="#pages.1_Load_data.check_if_saved_models_exist"><code class="docutils literal notranslate"><span class="pre">check_if_saved_models_exist()</span></code></a></li>
+<li><a class="reference internal" href="#pages.1_Load_data.import_data_to_session_state"><code class="docutils literal notranslate"><span class="pre">import_data_to_session_state()</span></code></a></li>
+<li><a class="reference internal" href="#pages.1_Load_data.load_clean_data"><code class="docutils literal notranslate"><span class="pre">load_clean_data()</span></code></a></li>
+<li><a class="reference internal" href="#pages.1_Load_data.load_original_data"><code class="docutils literal notranslate"><span class="pre">load_original_data()</span></code></a></li>
+<li><a class="reference internal" href="#pages.1_Load_data.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pages.2_Eda">pages.2_Eda module</a><ul>
+<li><a class="reference internal" href="#pages.2_Eda.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pages.3_Modelling">pages.3_Modelling module</a><ul>
+<li><a class="reference internal" href="#pages.3_Modelling.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pages.4_Neural_network">pages.4_Neural_network module</a><ul>
+<li><a class="reference internal" href="#pages.4_Neural_network.build_model"><code class="docutils literal notranslate"><span class="pre">build_model()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.load_model_weights"><code class="docutils literal notranslate"><span class="pre">load_model_weights()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.load_training_history"><code class="docutils literal notranslate"><span class="pre">load_training_history()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.plot_results"><code class="docutils literal notranslate"><span class="pre">plot_results()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.preprocess_data"><code class="docutils literal notranslate"><span class="pre">preprocess_data()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.save_model_weights"><code class="docutils literal notranslate"><span class="pre">save_model_weights()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.save_training_history"><code class="docutils literal notranslate"><span class="pre">save_training_history()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.train_and_evaluate_model"><code class="docutils literal notranslate"><span class="pre">train_and_evaluate_model()</span></code></a></li>
+<li><a class="reference internal" href="#pages.4_Neural_network.tune_model"><code class="docutils literal notranslate"><span class="pre">tune_model()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pages.5_Idea">pages.5_Idea module</a><ul>
+<li><a class="reference internal" href="#pages.5_Idea.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pages">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Team6 Project - Street Risk Predictor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pages package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pages.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pages-package">
+<h1>pages package<a class="headerlink" href="#pages-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-pages.1_Load_data">
+<span id="pages-1-load-data-module"></span><h2>pages.1_Load_data module<a class="headerlink" href="#module-pages.1_Load_data" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.1_Load_data.check_files">
+<span class="sig-prename descclassname"><span class="pre">pages.1_Load_data.</span></span><span class="sig-name descname"><span class="pre">check_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_d_exists</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleaned_d_exists</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/1_Load_data.html#check_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.1_Load_data.check_files" title="Link to this definition"></a></dt>
+<dd><p>Check if original and cleaned data files exist and load them.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>original_d_exists (bool): Flag indicating if original data exists.
+cleaned_d_exists (bool): Flag indicating if cleaned data exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.1_Load_data.check_if_saved_models_exist">
+<span class="sig-prename descclassname"><span class="pre">pages.1_Load_data.</span></span><span class="sig-name descname"><span class="pre">check_if_saved_models_exist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/1_Load_data.html#check_if_saved_models_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.1_Load_data.check_if_saved_models_exist" title="Link to this definition"></a></dt>
+<dd><p>Check if saved models exist in the weights directory.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>bool: True if models exist, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.1_Load_data.import_data_to_session_state">
+<span class="sig-prename descclassname"><span class="pre">pages.1_Load_data.</span></span><span class="sig-name descname"><span class="pre">import_data_to_session_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/1_Load_data.html#import_data_to_session_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.1_Load_data.import_data_to_session_state" title="Link to this definition"></a></dt>
+<dd><p>Import cleaned data to Streamlit’s session state.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.1_Load_data.load_clean_data">
+<span class="sig-prename descclassname"><span class="pre">pages.1_Load_data.</span></span><span class="sig-name descname"><span class="pre">load_clean_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/1_Load_data.html#load_clean_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.1_Load_data.load_clean_data" title="Link to this definition"></a></dt>
+<dd><p>Clean the original data.</p>
+<p>Displays a spinner and messages indicating the process status.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.1_Load_data.load_original_data">
+<span class="sig-prename descclassname"><span class="pre">pages.1_Load_data.</span></span><span class="sig-name descname"><span class="pre">load_original_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/1_Load_data.html#load_original_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.1_Load_data.load_original_data" title="Link to this definition"></a></dt>
+<dd><p>Load original data from an SQL Database and export it.</p>
+<p>Displays a spinner and messages indicating the process status.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.1_Load_data.main">
+<span class="sig-prename descclassname"><span class="pre">pages.1_Load_data.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/1_Load_data.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.1_Load_data.main" title="Link to this definition"></a></dt>
+<dd><p>Main function to run the Streamlit app.</p>
+</dd></dl>
+
+</section>
+<section id="module-pages.2_Eda">
+<span id="pages-2-eda-module"></span><h2>pages.2_Eda module<a class="headerlink" href="#module-pages.2_Eda" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.2_Eda.main">
+<span class="sig-prename descclassname"><span class="pre">pages.2_Eda.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/2_Eda.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.2_Eda.main" title="Link to this definition"></a></dt>
+<dd><p>Main function to run the Streamlit app and display EDA analysis.</p>
+</dd></dl>
+
+</section>
+<section id="module-pages.3_Modelling">
+<span id="pages-3-modelling-module"></span><h2>pages.3_Modelling module<a class="headerlink" href="#module-pages.3_Modelling" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.3_Modelling.main">
+<span class="sig-prename descclassname"><span class="pre">pages.3_Modelling.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/3_Modelling.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.3_Modelling.main" title="Link to this definition"></a></dt>
+<dd><p>Main function to run the Streamlit app for binary classification visualization.</p>
+</dd></dl>
+
+</section>
+<section id="module-pages.4_Neural_network">
+<span id="pages-4-neural-network-module"></span><h2>pages.4_Neural_network module<a class="headerlink" href="#module-pages.4_Neural_network" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.build_model">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">build_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units_1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units_2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#build_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.build_model" title="Link to this definition"></a></dt>
+<dd><p>Build the neural network model.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>hp (HyperParameters, optional): Hyperparameters from Keras Tuner. Defaults to None.
+X_train (DataFrame, optional): Training data. Defaults to None.
+units_1 (int, optional): Number of units in the first layer. Defaults to None.
+units_2 (int, optional): Number of units in the second layer. Defaults to None.
+learning_rate (float, optional): Learning rate for the optimizer. Defaults to None.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Sequential: The built model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.load_model_weights">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">load_model_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#load_model_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.load_model_weights" title="Link to this definition"></a></dt>
+<dd><p>Load the model weights from an HDF5 file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model_name (str): The name of the model to load.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Sequential: The loaded model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.load_training_history">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">load_training_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#load_training_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.load_training_history" title="Link to this definition"></a></dt>
+<dd><p>Load the training history from a JSON file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): The name of the file to load the history from.</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict: The training history.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.main">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.main" title="Link to this definition"></a></dt>
+<dd><p>Main function to run the Streamlit app for neural network classifier.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.plot_results">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">history</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.plot_results" title="Link to this definition"></a></dt>
+<dd><p>Plot the training results and evaluation metrics.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>history (dict): Training history.
+X_test (DataFrame): Test data.
+y_test (Series): Test labels.
+model (Sequential): The trained model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.preprocess_data">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">preprocess_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#preprocess_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.preprocess_data" title="Link to this definition"></a></dt>
+<dd><p>Preprocess the input data.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (DataFrame): The input data.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: Tuple containing training, validation, and test sets (X_train, X_val, X_test, y_train, y_val, y_test).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.save_model_weights">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">save_model_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_x_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#save_model_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.save_model_weights" title="Link to this definition"></a></dt>
+<dd><p>Save the trained model and feature names.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model (Sequential): The trained model.
+model_name (str): The name of the model.
+original_x_data (DataFrame): The original input data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.save_training_history">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">save_training_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">history</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#save_training_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.save_training_history" title="Link to this definition"></a></dt>
+<dd><p>Save the training history to a JSON file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>history (History): The training history.
+filename (str): The name of the file to save the history.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.train_and_evaluate_model">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">train_and_evaluate_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#train_and_evaluate_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.train_and_evaluate_model" title="Link to this definition"></a></dt>
+<dd><p>Train and evaluate the model.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>X_train (DataFrame): Training data.
+y_train (Series): Training labels.
+X_val (DataFrame): Validation data.
+y_val (Series): Validation labels.
+X_test (DataFrame): Test data.
+y_test (Series): Test labels.
+units_1 (int): Number of units in the first layer.
+units_2 (int): Number of units in the second layer.
+learning_rate (float): Learning rate for the optimizer.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: The trained model, training history, test loss, and test accuracy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.4_Neural_network.tune_model">
+<span class="sig-prename descclassname"><span class="pre">pages.4_Neural_network.</span></span><span class="sig-name descname"><span class="pre">tune_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/4_Neural_network.html#tune_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.4_Neural_network.tune_model" title="Link to this definition"></a></dt>
+<dd><p>Perform hyperparameter tuning using Keras Tuner.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>X_train (DataFrame): Training data.
+y_train (Series): Training labels.
+X_val (DataFrame): Validation data.
+y_val (Series): Validation labels.
+X_test (DataFrame): Test data.
+y_test (Series): Test labels.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: The best model, training history, test loss, and test accuracy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pages.5_Idea">
+<span id="pages-5-idea-module"></span><h2>pages.5_Idea module<a class="headerlink" href="#module-pages.5_Idea" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pages.5_Idea.main">
+<span class="sig-prename descclassname"><span class="pre">pages.5_Idea.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pages/5_Idea.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pages.5_Idea.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pages">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pages" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dominik, Natalia, Lars, Luka, Artjom.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+['duration_seconds', 'speed_kmh', 'end_speed_kmh', 'maxwaarde', 'category', 'last_hour_wind_avg', 'last_hour_temp_avg', 'last_hour_rain_avg']

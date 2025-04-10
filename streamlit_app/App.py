@@ -24,11 +24,11 @@ def check_if_saved_models_exist():
     Returns:
         bool: True if models exist, False otherwise.
     """
-    if not any(Path("weights").iterdir()):
+    if not any(Path("./streamlit_app/weights").iterdir()):
         st.write("Models do not exist")
         st.error("Train models by going to modelling page")
         return False
-    elif any(Path("weights").iterdir()) and "data" not in st.session_state:
+    elif any(Path("./streamlit_app/weights").iterdir()) and "data" not in st.session_state:
         st.success("Models exist")
         return True
     else:
@@ -213,7 +213,7 @@ def main():
         st.write("Choose model to show map for")
         model_names = [
             str(model.stem).replace("_", " ").capitalize()
-            for model in Path("weights").iterdir() if 'hist' not in str(model.stem)
+            for model in Path("./streamlit_app/weights").iterdir() if 'hist' not in str(model.stem)
         ]
 
         def delete_key_in_dict(key, received_dict):

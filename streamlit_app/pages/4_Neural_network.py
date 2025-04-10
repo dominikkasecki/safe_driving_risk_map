@@ -299,7 +299,7 @@ def main():
         
         plot_results(hist.history, X_test, y_test, model)
 
-    if st.button('Train and Evaluate with Model Tuning'):
+    if st.button('Train and Evaluate with Model Tuning (takes long to train)'):
         X_train, X_val, X_test, y_train, y_val, y_test = preprocess_data(df)
         model, hist, test_loss, test_acc = tune_model(X_train, y_train, X_val, y_val, X_test, y_test)
 

@@ -28,12 +28,12 @@ def main():
         # Select model
         model_choice = st.sidebar.selectbox(
             "Select classifier algorithm",
-            ("select classifier", "XGBoost Classifier", "Random Forest Classifier", "Support Vector Machine (SVM)")
+            ("select classifier", "XGBoost Classifier (takes long to train)", "Random Forest Classifier", "Support Vector Machine (SVM)")
         )
 
         if model_choice != "select classifier":
             model_params = {}
-            if model_choice == "XGBoost Classifier":
+            if model_choice == "XGBoost Classifier (takes long to train)":
                 model_params["n_estimators"] = st.sidebar.slider("Number of boosting rounds (n_estimators)", 100, 500, 100)
                 model_params["max_depth"] = st.sidebar.number_input("Maximum tree depth for base learners (max_depth)", 1, 10, 1)
                 model_params["learning_rate"] = st.sidebar.slider("Learning rate (eta)", 0.01, 0.3, 0.01)

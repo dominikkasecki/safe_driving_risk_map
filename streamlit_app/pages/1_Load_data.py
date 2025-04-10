@@ -73,11 +73,11 @@ def main():
     st.header("Let's check if data exists")
     data_dir_exists = Path('data').exists()
     if not data_dir_exists:
-        Path('data/original_data').mkdir(parents=True, exist_ok=True)
-        Path('data/cleaned_data').mkdir(parents=True, exist_ok=True)
+        Path('./streamlit_app/data/original_data').mkdir(parents=True, exist_ok=True)
+        Path('./streamlit_app/data/cleaned_data').mkdir(parents=True, exist_ok=True)
 
-    original_data_exists = any(Path("data/original_data").iterdir())
-    cleaned_data_exists = any(Path("data/cleaned_data").iterdir())
+    original_data_exists = any(Path("./streamlit_app/data/original_data").iterdir())
+    cleaned_data_exists = any(Path("./streamlit_app/data/cleaned_data").iterdir())
 
     st.write("Checking if files exist in the directory")
 

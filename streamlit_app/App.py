@@ -45,9 +45,9 @@ def get_model_path(model_name):
         str: Path to the model file.
     """
     if 'neural_network' in model_name.lower():
-        return f"./weights/{model_name}.h5"
+        return f"./streamlit_app/weights/{model_name}.h5"
     else:
-        return f"./weights/{model_name}.pkl"
+        return f"./streamlit_app/weights/{model_name}.pkl"
 
 def load_model(model_path):
     """Load a model from a given file path.
@@ -73,7 +73,7 @@ def get_model_features_path(model_name):
     Returns:
         str: Path to the model features file.
     """
-    return f"./model_features/{model_name}_features.txt"
+    return f"./streamlit_app/model_features/{model_name}_features.txt"
 
 def read_model_features(model_path):
     """Read model features from a file.

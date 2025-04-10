@@ -26,20 +26,6 @@ This project visualizes street-level driving risk predictions in Breda using rea
 
 ---
 
-## 🚀 Get Started
-
-To run the app locally:
-
-```bash
-git clone https://github.com/yourusername/safe-driving-risk-map.git
-cd safe-driving-risk-map/streamlit_app
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-streamlit run App.py
-```
-
----
 
 ## 🤝 Why It Matters
 

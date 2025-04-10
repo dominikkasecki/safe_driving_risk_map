@@ -26,7 +26,7 @@ def import_df(name="", columns_to_convert=[], custom_path=None):
     if custom_path:
         path = custom_path
     else:
-        st.write(f'This is  path:   {Path(__file__).resolve().parent.parent.parent.parent}/data/cleaned_data/{name}.csv')
+       
 
         path = f"{Path(__file__).resolve().parent.parent.parent.parent}/data/cleaned_data/{name}.csv"
 

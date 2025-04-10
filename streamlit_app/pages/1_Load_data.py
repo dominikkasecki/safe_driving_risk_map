@@ -81,6 +81,9 @@ def main():
 
     st.write("Checking if files exist in the directory")
 
+    st.write(f'{original_data_exists}' )
+    st.write(f'{cleaned_data_exists}')
+
     if "data" not in st.session_state:
         with st.spinner(text="checking"):
             check_files(original_data_exists, cleaned_data_exists)
